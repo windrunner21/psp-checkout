@@ -20,7 +20,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
             <div className={styles.rowWithSpaceBetween}>
                 <div className={styles.column}>
                     <span className={styles.title}>Expire Date</span>
-                    <span className={styles.subtitle}>Enter your card's expiration date</span>
+                    <span className={styles.subtitle}>Enter your card&apos;s expiration date</span>
                 </div>
                 <div className={styles.rowForExpireDate}>
                     <TextField width={100} maxLength={2} />
@@ -33,7 +33,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
             <div className={styles.rowWithSpaceBetween}>
                 <div className={styles.column}>
                     <span className={styles.title}>CVV/CVC</span>
-                    <span className={styles.subtitle}>Enter your card's 3 digits on the back</span>
+                    <span className={styles.subtitle}>Enter your card&apos;s 3 digits on the back</span>
                 </div>
                 <TextField width={40} type="password" maxLength={3} />
             </div>
@@ -49,7 +49,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
 
             {/* PAY BUTTON */}
             <PrimaryButton title="Pay Now" loading={false} />
-            <span className={styles.caption}>By pressing the "Pay Now" button you confirm the correctness of the transaction.</span>
+            <span className={styles.caption}>By pressing the &ldquo;Pay Now&ldquo; button you confirm the correctness of the transaction.</span>
         </>
     )
 }
