@@ -1,0 +1,32 @@
+.input {
+    padding: 0.6rem;
+    border-radius: 0.4rem;
+    border: 0.1rem solid #D2D4D8;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.input:hover {
+    cursor: pointer;
+}
+
+.input:hover,
+.input:focus,
+.input:active {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* VERY SMALL MOBILE - OVERRIDE WIDTH FROM PROPS */
+
+@media (max-width: 400px) {
+    .input {
+        width: 100% !important;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .input {
+        border: 0.1rem solid gray
+    }
+}

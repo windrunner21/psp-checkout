@@ -1,0 +1,60 @@
+.card {
+    z-index: 1;
+    top: -5rem;
+    position: absolute;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.25);
+    border-radius: 3mm;
+    height: 85.6mm;
+    width: 53.98mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+    background: url("../../public/card/decoration.svg") no-repeat right, white;
+}
+
+.column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    margin-top: 0.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chip {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.cardSpan {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+    .card {
+        background: url("../../public/card/decoration.svg") no-repeat right, black;
+    }
+
+    .cardSpan {
+        color: white;
+    }
+}
+
+@media (max-width: 700px) {
+    .card {
+        display: none;
+    }
+}
