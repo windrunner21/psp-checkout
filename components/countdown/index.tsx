@@ -1,6 +1,7 @@
 import React from "react"
 import styles from "../countdown/Countdown.module.css"
 import CountdownProps from "./interface"
+import { Fragment } from 'react';
 
 const Countdown = (props: CountdownProps) => {
     const [seconds, setSeconds] = React.useState(0)
@@ -36,10 +37,10 @@ const Countdown = (props: CountdownProps) => {
             <span>:</span>
             <>
                 {seconds.toString().split('').map((secondsDigit, index) => (
-                    <>
+                    <Fragment key={index}>
                         {seconds < 10 ? <span className={styles.digit}>0</span> : <></>}
-                        <span key={index} className={styles.digit}>{secondsDigit}</span>
-                    </>
+                        <span className={styles.digit}>{secondsDigit}</span>
+                    </Fragment>
                 ))}
             </>
         </div>

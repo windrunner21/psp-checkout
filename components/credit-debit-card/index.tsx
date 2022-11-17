@@ -12,7 +12,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
                 <span className={styles.title}>Card Number</span>
                 <span className={styles.subtitle}>Enter exact number of digits on your card</span>
                 <div style={{ marginTop: "1rem" }}>
-                    <TextField width={100} image={"credit-card"} />
+                    <TextField width={100} image={"credit-card"} numerical={true} />
                 </div>
             </div>
 
@@ -23,9 +23,9 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
                     <span className={styles.subtitle}>Enter your card&apos;s expiration date</span>
                 </div>
                 <div className={styles.rowForExpireDate}>
-                    <TextField width={100} maxLength={2} />
+                    <TextField width={100} maxLength={2} numerical={true} />
                     <span className={styles.title} style={{ margin: "0 0.5rem" }}>/</span>
-                    <TextField width={100} maxLength={2} />
+                    <TextField width={100} maxLength={2} numerical={true} />
                 </div>
             </div>
 
@@ -35,7 +35,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
                     <span className={styles.title}>CVV/CVC</span>
                     <span className={styles.subtitle}>Enter your card&apos;s 3 digits on the back</span>
                 </div>
-                <TextField width={40} type="password" maxLength={3} />
+                <TextField width={40} type="password" maxLength={3} numerical={true} />
             </div>
 
             {/* CARD HOLDER */}

@@ -22,7 +22,7 @@ const OrderDetails = (props: OrderDetailsProps) => {
                     <span className={styles.title} style={{ marginTop: "1rem" }}>You have to pay</span>
                     <span className={styles.price}>102.10 AZN</span>
                 </div>
-                <picture className={styles.logo}>
+                <picture>
                     <source srcSet="/mui-icons/receipt-dark.svg" media="(prefers-color-scheme: dark)" />
                     <img src="/mui-icons/receipt.svg" alt="long receipt material icon" width={40} height={40} />
                 </picture>

@@ -13,6 +13,8 @@ const TextField = (props: TextFieldProps) => {
             placeholder={props.placeholder}
             type={props.type}
             maxLength={props.maxLength}
+            inputMode={props.numerical ? "numeric" : "text"}
+            autoComplete="on"
         />
     )
 }

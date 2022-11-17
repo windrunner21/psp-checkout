@@ -4,6 +4,7 @@ interface TextFieldProps {
   image?: string;
   type?: string;
   maxLength?: number;
+  numerical?: boolean;
 }
 
 export default TextFieldProps;
