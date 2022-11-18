@@ -33,20 +33,17 @@ const TextField = (props: TextFieldProps) => {
                 if (targetStrong.value.length <= 4) {
                     props.setAssociation!(retrieveCardAssociations(target))
                 }
+
+                props.save(targetStrong.value.replace(/\D/g, ""))
                 break;
             case "full-name":
                 setHasError(!isValidNameSurname(target))
+                props.save(targetStrong.value)
                 break;
             default:
+                props.save(targetStrong.value.replace(/\D/g, ""))
                 targetStrong.value = targetStrong.value.replace(/\D/g, "")
                 break;
-        }
-    }
-
-    function onKeyDown(event: any) {
-
-        if (props.validate == "full-name") {
-            return RegExp(/^[A-Za-z]+$/).test(event.key)
         }
     }
 
@@ -71,28 +68,10 @@ const TextField = (props: TextFieldProps) => {
             case "password":
                 setHasError(!isValidPassword(target))
                 break;
-            case "full-name":
-                setHasError(!isValidNameSurname(target))
-                break;
             default:
                 break;
         }
     };
-
-    // for saving value
-    function onChange(value: string) {
-        switch (props.validate) {
-            case "full-name":
-                props.save(value)
-                break;
-            case "expire-month":
-                props.save(value)
-                break;
-            default:
-                props.save(value.replace(/\D/g, ""))
-                break;
-        }
-    }
 
     return (
         <input
@@ -105,9 +84,7 @@ const TextField = (props: TextFieldProps) => {
             inputMode={props.numerical ? "numeric" : "text"}
             autoComplete="on"
             onPaste={(e) => e.preventDefault()}
-            onChange={(e) => onChange(e.target.value)}
             onKeyUp={(e) => onKeyUp(e.target)}
-            onKeyDown={(e) => onKeyDown(e.target)}
             onBlur={(e) => onBlur(e.target)}
         />
     )

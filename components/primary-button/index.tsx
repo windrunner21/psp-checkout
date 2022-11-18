@@ -8,7 +8,7 @@ const PrimaryButton = (props: PrimaryButtonProps) => {
 
     return (
         <Link href={"/receipt"} className={styles.link}>
-            <button className={styles.button} onClick={props.onClick} style={{ backgroundColor: `${props.color ? props.color : ''}` }}>
+            <button className={styles.button} onClick={props.onClick} style={{ backgroundColor: `${props.color}` }}>
                 {!props.loading && props.title}
                 {props.loading && <LoadingIndicator />}
             </button>

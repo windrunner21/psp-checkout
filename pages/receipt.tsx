@@ -45,6 +45,14 @@ export default function Receipt() {
                             <span className={styles.value}>81283609931112</span>
                         </div>
                         <div className={styles.rowContent}>
+                            <span className={styles.title}>Approval Code:</span>
+                            <span className={styles.value}>609873</span>
+                        </div>
+                        <div className={styles.rowContent}>
+                            <span className={styles.title}>Date and Time:</span>
+                            <span className={styles.value}>24/08/22 09:14</span>
+                        </div>
+                        <div className={styles.rowContent}>
                             <span className={styles.title}>Company:</span>
                             <span className={styles.value}>Netflix</span>
                         </div>
