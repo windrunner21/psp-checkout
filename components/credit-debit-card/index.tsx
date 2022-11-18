@@ -37,6 +37,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
                         numerical={true}
                         save={props.setExpireMonth}
                         validate={"expire-month"}
+                        holding={props.expireYear}
                     />
                     <span className={styles.title} style={{ margin: "0 0.5rem" }}>/</span>
                     <TextField

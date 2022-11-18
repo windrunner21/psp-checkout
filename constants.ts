@@ -98,10 +98,28 @@ export function validateCard(target: EventTarget) {
   return nCheck % 10 == 0;
 }
 
-export function isValidExpireMonth(target: EventTarget) {
+export function isValidExpireMonth(target: EventTarget, yearValue: string) {
   const targetStrong = target as HTMLTextAreaElement;
 
-  if (Number(targetStrong.value) > 0 && Number(targetStrong.value) <= 12) {
+  if (yearValue != "") {
+    const last2 = new Date().getFullYear().toString().substring(2);
+    let month: number | string = new Date().getMonth() + 1;
+    month = month < 10 ? "0" + month : month;
+
+    if (Number(yearValue) > Number(last2)) {
+      return true;
+    } else if (
+      Number(yearValue) == Number(last2) &&
+      targetStrong.value >= month
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (
+    Number(targetStrong.value) > 0 &&
+    Number(targetStrong.value) <= 12
+  ) {
     return true;
   } else {
     return false;

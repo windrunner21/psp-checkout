@@ -40,6 +40,7 @@ export default function Home() {
             </div>
             <CreditDebitCard
               expireMonth={expireMonth}
+              expireYear={expireYear}
               setFullName={setFullName}
               setCardNumber={setCardNumber}
               setExpireMonth={setExpireMonth}

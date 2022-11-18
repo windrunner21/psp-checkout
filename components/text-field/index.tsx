@@ -57,8 +57,13 @@ const TextField = (props: TextFieldProps) => {
                 setHasError(!validateCard(target))
                 break;
             case "expire-month":
-                setHasError(!isValidExpireMonth(target))
+                const targetStrong = target as HTMLTextAreaElement
+                // validate
+                setHasError(!isValidExpireMonth(target, props.holding!))
+                // format
                 formatExpireMonth(target)
+                // save formatted
+                props.save(targetStrong.value)
                 break;
             case "expire-year":
                 setHasError(!isValidExpireYear(target, props.holding!))
@@ -80,6 +85,9 @@ const TextField = (props: TextFieldProps) => {
             case "full-name":
                 props.save(value)
                 break;
+            case "expire-month":
+                props.save(value)
+                break;
             default:
                 props.save(value.replace(/\D/g, ""))
                 break;
@@ -90,11 +98,7 @@ const TextField = (props: TextFieldProps) => {
         <input
             ref={inputRef}
             className={`${styles.input} ${hasError ? styles.error : ''}`}
-            style={{
-                width: `${props.width}%`,
-                background: `url("/mui-icons/${props.image}.svg") no-repeat left`,
-                backgroundPositionX: "0.5rem",
-            }}
+            style={{ width: `${props.width}%` }}
             placeholder={props.placeholder}
             type={props.type}
             maxLength={props.maxLength}
