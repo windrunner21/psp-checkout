@@ -6,13 +6,21 @@ import CreditDebitCardProps from "./interface";
 const CreditDebitCard = (props: CreditDebitCardProps) => {
     return (
         <>
-
             {/* CARD NUMBER */}
             <div className={styles.columnWithMargin}>
                 <span className={styles.title}>Card Number</span>
                 <span className={styles.subtitle}>Enter exact number of digits on your card</span>
                 <div style={{ marginTop: "1rem" }}>
-                    <TextField width={100} image={"credit-card"} numerical={true} />
+                    <TextField
+                        autofocus={true}
+                        width={100}
+                        maxLength={25}
+                        image={"credit-card"}
+                        numerical={true}
+                        validate={"credit-card"}
+                        save={props.setCardNumber}
+                        setAssociation={props.setCardAssociation}
+                    />
                 </div>
             </div>
 
@@ -23,9 +31,22 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
                     <span className={styles.subtitle}>Enter your card&apos;s expiration date</span>
                 </div>
                 <div className={styles.rowForExpireDate}>
-                    <TextField width={100} maxLength={2} numerical={true} />
+                    <TextField
+                        width={100}
+                        maxLength={2}
+                        numerical={true}
+                        save={props.setExpireMonth}
+                        validate={"expire-month"}
+                    />
                     <span className={styles.title} style={{ margin: "0 0.5rem" }}>/</span>
-                    <TextField width={100} maxLength={2} numerical={true} />
+                    <TextField
+                        width={100}
+                        maxLength={2}
+                        numerical={true}
+                        save={props.setExpireYear}
+                        validate={"expire-year"}
+                        holding={props.expireMonth}
+                    />
                 </div>
             </div>
 
@@ -35,7 +56,14 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
                     <span className={styles.title}>CVV/CVC</span>
                     <span className={styles.subtitle}>Enter your card&apos;s 3 digits on the back</span>
                 </div>
-                <TextField width={40} type="password" maxLength={3} numerical={true} />
+                <TextField
+                    width={40}
+                    type="password"
+                    maxLength={3}
+                    numerical={true}
+                    save={props.setPassword}
+                    validate={"password"}
+                />
             </div>
 
             {/* CARD HOLDER */}
@@ -44,7 +72,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
                     <span className={styles.title}>Card Holder</span>
                     <span className={styles.subtitle}>Enter your full name</span>
                 </div>
-                <TextField width={100} />
+                <TextField width={100} validate={"full-name"} save={props.setFullName} />
             </div>
 
             {/* PAY BUTTON */}

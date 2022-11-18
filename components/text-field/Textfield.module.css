@@ -17,6 +17,10 @@
     outline: none;
 }
 
+.error {
+    border-color: var(--error-primary) !important;
+}
+
 /* VERY SMALL MOBILE - OVERRIDE WIDTH FROM PROPS */
 
 @media (max-width: 400px) {

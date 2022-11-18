@@ -1,41 +1,148 @@
-export const RE_VISA = new RegExp(/^4[0-9]{12}(?:[0-9]{3})?$/);
-export const RE_MASTERCARD = new RegExp(
-  /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/
-);
-export const RE_AMEX = new RegExp(/^3[47][0-9]{13}$/);
-export const RE_MAESTRO = new RegExp(
-  /^(5018|5081|5044|5020|5038|603845|6304|6759|676[1-3]|6799|6220|504834|504817|504645)[0-9]{8,15}$/
-);
-
-enum CardAssociation {
-  VISA,
-  MASTERCARD,
-  AMEX,
-  MAESTRO,
-}
-
-export function validateCard(target: EventTarget, type: CardAssociation) {
+export function retrieveCardAssociations(target: EventTarget) {
   const targetStrong = target as HTMLTextAreaElement;
-  let regex: RegExp | null = null;
+  const value = targetStrong.value.replace(/\D/g, "");
 
-  switch (type) {
-    case CardAssociation.VISA:
-      regex = RE_VISA;
-      break;
-    case CardAssociation.MASTERCARD:
-      regex = RE_MASTERCARD;
-      break;
-    case CardAssociation.AMEX:
-      regex = RE_AMEX;
-      break;
-    case CardAssociation.MAESTRO:
-      regex = RE_MAESTRO;
-      break;
-    default:
-      break;
+  if (RegExp(/^4[0-9]{0,}$/).test(value)) {
+    return "visa";
   }
 
-  if (regex?.test(targetStrong.value.replace(/\D/g, ""))) {
+  if (
+    RegExp(/^(5[1-5]|222[1-9]|22[3-9]|2[3-6]|27[01]|2720)[0-9]{0,}$/).test(
+      value
+    )
+  ) {
+    return "mastercard";
+  }
+
+  if (RegExp(/^3[47][0-9]{0,}$/).test(value)) {
+    return "amex";
+  }
+}
+
+export function formatCreditCard(target: EventTarget) {
+  const targetStrong = target as HTMLTextAreaElement;
+
+  var rawCardNumber = targetStrong.value.replace(/\D/g, "");
+
+  if (rawCardNumber.length > 0) {
+    // force reg exp - possible null exists
+    rawCardNumber = rawCardNumber
+      .match(new RegExp(".{1,4}", "g"))!
+      .join(" \u00B7 ");
+  }
+
+  targetStrong.value = rawCardNumber;
+}
+
+export function showLatest4Digits(length: number, input: string) {
+  let times = Math.floor(length / 4);
+
+  if (length > 0 && length % 4 == 0) {
+    times = times - 1;
+  }
+
+  if ((length - 1) % 4 == 0) {
+    return "\u2022".repeat(times) + input.substring(4 * times, length);
+  }
+
+  if (length > 4 * times + 1 && length <= 4 * (times + 1)) {
+    return "\u2022".repeat(times) + input.substring(4 * times, 4 * (times + 1));
+  }
+}
+
+export function showExpireDate(month: string, year: string) {
+  if (month.length == 2) {
+    return month + "/" + year;
+  }
+
+  return month + year;
+}
+
+export function formatExpireMonth(target: EventTarget) {
+  const targetStrong = target as HTMLTextAreaElement;
+
+  if (
+    Number(targetStrong.value) > 0 &&
+    Number(targetStrong.value) < 10 &&
+    targetStrong.value.length != 2
+  ) {
+    // force reg exp - possible null exists
+    targetStrong.value = "0" + targetStrong.value;
+  }
+}
+
+export function validateCard(target: EventTarget) {
+  const targetStrong = target as HTMLTextAreaElement;
+  let value = targetStrong.value.replace(/\D/g, "");
+
+  if (/[^0-9-\s]+/.test(value)) return false;
+
+  // The Luhn Algorithm. It's so pretty.
+  var nCheck = 0,
+    nDigit = 0,
+    bEven = false;
+  value = value.replace(/\D/g, "");
+
+  for (var n = value.length - 1; n >= 0; n--) {
+    var cDigit = value.charAt(n),
+      nDigit = parseInt(cDigit, 10);
+
+    if (bEven) {
+      if ((nDigit *= 2) > 9) nDigit -= 9;
+    }
+
+    nCheck += nDigit;
+    bEven = !bEven;
+  }
+
+  return nCheck % 10 == 0;
+}
+
+export function isValidExpireMonth(target: EventTarget) {
+  const targetStrong = target as HTMLTextAreaElement;
+
+  if (Number(targetStrong.value) > 0 && Number(targetStrong.value) <= 12) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function isValidExpireYear(target: EventTarget, monthValue: string) {
+  const targetStrong = target as HTMLTextAreaElement;
+
+  const last2 = new Date().getFullYear().toString().substring(2);
+  let month: number | string = new Date().getMonth() + 1;
+
+  month = month < 10 ? "0" + month : month;
+
+  console.log(month);
+  if (Number(targetStrong.value) > Number(last2)) {
+    return true;
+  } else if (
+    Number(targetStrong.value) == Number(last2) &&
+    monthValue >= month
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function isValidPassword(target: EventTarget) {
+  const targetStrong = target as HTMLTextAreaElement;
+
+  if (targetStrong.value.length == 3) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function isValidNameSurname(target: EventTarget) {
+  const targetStrong = target as HTMLTextAreaElement;
+
+  if (RegExp(/^[a-zA-Z ]{2,30}$/).test(targetStrong.value)) {
     return true;
   } else {
     return false;

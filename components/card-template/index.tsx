@@ -9,11 +9,11 @@ const CardTemplate = (props: CardTemplateProps) => {
                 <Image src="/card/chip.png" alt="Card Association" width={30} height={30} />
             </div>
             <div className={styles.column}>
-                <span className={styles.cardSpan}>Imran Hajiyev</span>
-                <span className={styles.cardSpan}>&#x2022; &#x2022; &#x2022; 2100</span>
+                <span className={styles.cardSpan}>{props.name}</span>
+                <span className={styles.cardSpan}>{props.last4}</span>
                 <div className={styles.row}>
-                    <span className={styles.cardSpan}>02/26</span>
-                    <Image src="/card-associations/visa.svg" alt="Card Association" width={34.92} height={24} />
+                    <span className={styles.cardSpan}>{props.expire}</span>
+                    {props.association && <Image src={`/card-associations/${props.association}.svg`} alt="Card Association" width={34.92} height={24} />}
                 </div>
             </div>
         </div>
