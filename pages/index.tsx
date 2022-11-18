@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Payment Page</title>
+        <title>Pay | Odero</title>
         <meta name="description" content="Payment Page from Odero.az after Checkout" />
         <meta name="keywords" content="Payment Page, Amex, Visa, Mastercard" />
         <meta name="theme-color" content="#F0FAED" media="(prefers-color-scheme: light)" />

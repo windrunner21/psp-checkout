@@ -1,9 +1,12 @@
+import React from "react";
 import styles from "../credit-debit-card/CreditDebitCard.module.css"
 import PrimaryButton from "../primary-button";
 import TextField from "../text-field";
 import CreditDebitCardProps from "./interface";
 
 const CreditDebitCard = (props: CreditDebitCardProps) => {
+    const [loading, setIsLoading] = React.useState(false)
+
     return (
         <>
             {/* CARD NUMBER */}
@@ -77,7 +80,7 @@ const CreditDebitCard = (props: CreditDebitCardProps) => {
             </div>
 
             {/* PAY BUTTON */}
-            <PrimaryButton title="Pay Now" loading={false} />
+            <PrimaryButton title="Pay Now" loading={loading} onClick={() => setIsLoading(true)} />
             <span className={styles.caption}>By pressing the &ldquo;Pay Now&ldquo; button you confirm the correctness of the transaction.</span>
         </>
     )
