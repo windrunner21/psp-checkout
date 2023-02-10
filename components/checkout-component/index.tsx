@@ -85,9 +85,7 @@ const Checkout = (props: CheckoutProps) => {
                 {/* items */}
                 <div className={`${styles.column} ${styles.items}`}>
                     {items.map((item, index) => (
-                        <>
-                            <Item key={index} name={item.name} price={item.price} description={item.description} image={item.image} />
-                        </>
+                        <Item key={index} name={item.name} price={item.price} description={item.description} image={item.image} />
                     ))}
                 </div>
 
