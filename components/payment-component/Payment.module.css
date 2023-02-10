@@ -76,3 +76,16 @@
     color: #A1A1A1;
     font-size: 0.9rem;
 }
+
+
+/**** MOBILE DEVICE ****/
+
+@media (max-width: 480px) {
+    .main {
+        background-color: white;
+    }
+
+    .content {
+        width: 350px;
+    }
+}

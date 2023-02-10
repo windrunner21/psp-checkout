@@ -13,3 +13,11 @@
 .rightContainer {
     width: 100%;
 }
+
+/**** MOBILE DEVICE ****/
+
+@media (max-width: 480px) {
+    .leftContainer {
+        display: none;
+    }
+}
