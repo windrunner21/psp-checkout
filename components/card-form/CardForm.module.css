@@ -1,0 +1,51 @@
+.main {
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.inputContainer {
+    position: relative;
+}
+
+.input {
+    width: 100%;
+    margin-bottom: 1rem;
+    outline: none;
+    border: 0.1rem solid #D2D4D8;
+    height: 2.5rem;
+    padding: 0rem 1rem;
+}
+
+.input:hover,
+.input:focus,
+.input:active {
+    border-color: var(--primary);
+}
+
+.associations {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.label {
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
