@@ -1,0 +1,42 @@
+.main {
+    margin-bottom: 2rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.spaceBetween {
+    width: 95%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.name {
+    font-weight: 500;
+}
+
+.description {
+    font-weight: 300;
+    line-height: 1.5;
+    color: gray;
+}
+
+.price {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.image {
+    position: relative;
+    width: 7.5vw;
+    height: 20vh;
+
+    margin-right: 2rem;
+}

@@ -1,0 +1,9 @@
+.main {
+    width: 100%;
+    text-align: center;
+}
+
+.caption {
+    font-size: 0.9rem;
+    color: var(--text);
+}

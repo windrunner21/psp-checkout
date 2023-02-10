@@ -2,6 +2,7 @@
   --primary: #6CD14E;
   --primary-rgb: 108, 209, 78;
   --secondary: #F3F4F8;
+  --black: #1a1c1f;
   --background-dark: rgba(255, 255, 255, .5);
 
   --success: #F0F8F4;
@@ -20,6 +21,27 @@
   --error-border: #EFD0C6;
 
   --text: #393F4B;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d3d3d3;
+  border-radius: 2rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
 }
 
 html,
