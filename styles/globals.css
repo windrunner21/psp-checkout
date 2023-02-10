@@ -41,7 +41,7 @@
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: transparent;
+  background: gray;
 }
 
 html,

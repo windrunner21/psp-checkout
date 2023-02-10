@@ -32,6 +32,16 @@
     border-color: var(--primary);
 }
 
+.inputError {
+    border-color: var(--error-primary);
+    background-color: var(--error);
+}
+
+.inputError:hover,
+.inputError:focus {
+    border-color: var(--error-primary);
+}
+
 .associations {
     position: absolute;
     right: 0.5rem;

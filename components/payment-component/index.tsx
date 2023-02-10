@@ -3,8 +3,29 @@ import PaymentProps from './interface';
 import OderoLogo from '../logo';
 import CardForm from '../card-form';
 import Button from '../button';
+import { useState, useRef } from 'react';
+import { isValidEmailAddress } from '../../controllers/validators';
 
 const Payment = (props: PaymentProps) => {
+
+    const [cardNumber, setCardNumber] = useState("")
+    const [month, setMonth] = useState("")
+    const [year, setYear] = useState("")
+    const [cvc, setCVC] = useState("")
+    const [cardHolderName, setCardHolderName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+
+    const emailRef = useRef<HTMLInputElement>(null);
+    const phoneRef = useRef<HTMLInputElement>(null);
+
+    const [cardNumberHasError, setCardNumberHasError] = useState(false)
+    const [monthHasError, setMonthHasError] = useState(false)
+    const [yearHasError, setYearHasError] = useState(false)
+    const [cvcHasError, setCVCHasError] = useState(false)
+    const [cardHolderNameHasError, setCardHolderNameHasError] = useState(false)
+    const [emailHasError, setEmailHasError] = useState(false)
+
     return (
         <div className={styles.main}>
             {/* white content itself */}
@@ -15,7 +36,33 @@ const Payment = (props: PaymentProps) => {
                     <OderoLogo />
 
                     {/* card form */}
-                    <CardForm />
+                    <CardForm
+                        cardNumber={cardNumber}
+                        setCardNumber={setCardNumber}
+                        month={month}
+                        setMonth={setMonth}
+                        year={year}
+
+                        setYear={setYear}
+                        cvc={cvc}
+                        setCVC={setCVC}
+                        cardHolderName={cardHolderName}
+                        setCardHolderName={setCardHolderName}
+
+                        cardNumberHasError={cardNumberHasError}
+                        monthHasError={monthHasError}
+                        yearHasError={yearHasError}
+                        cvcHasError={cvcHasError}
+                        cardHolderNameHasError={cardHolderNameHasError}
+
+                        setCardNumberHasError={setCardNumberHasError}
+                        setMonthHasError={setMonthHasError}
+                        setYearHasError={setYearHasError}
+                        setCVCHasError={setCVCHasError}
+                        setCardHolderNameHasError={setCardHolderNameHasError}
+
+                        emailRef={emailRef}
+                    />
 
                     {/* horizontal divider */}
                     <div className={styles.row}>
@@ -30,9 +77,20 @@ const Payment = (props: PaymentProps) => {
                         {/* email */}
                         <span className={styles.label}>Email</span>
                         <input
-                            className={styles.input}
-                            placeholder="Enter your email"
+                            className={`${styles.input} ${emailHasError && styles.inputError}`}
                             style={{ borderRadius: '0.4rem' }}
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && false) {
+                                    phoneRef!.current!.focus();
+                                }
+                            }}
+                            onBlur={(e) => {
+                                setEmailHasError(!isValidEmailAddress(e.target))
+                            }}
+                            ref={emailRef}
                         />
 
                         {/* phone number if needed */}
@@ -40,8 +98,11 @@ const Payment = (props: PaymentProps) => {
                             <span className={styles.label}>Phone Number</span>
                             <input
                                 className={styles.input}
-                                placeholder="Enter your phone number"
                                 style={{ borderRadius: '0.4rem' }}
+                                placeholder="Enter your phone number"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                ref={phoneRef}
                             />
                         </>
                         }
