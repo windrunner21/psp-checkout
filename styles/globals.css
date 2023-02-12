@@ -62,6 +62,11 @@ a {
 }
 
 @media (prefers-color-scheme: dark) {
+  :root {
+    --black: white;
+    --text: #F3F4F8;
+  }
+
   html {
     color-scheme: dark;
   }
@@ -69,10 +74,5 @@ a {
   body {
     color: white;
     background: black;
-  }
-
-  :root {
-    --black: white;
-    --text: #F3F4F8;
   }
 }
