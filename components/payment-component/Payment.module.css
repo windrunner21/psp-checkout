@@ -126,3 +126,26 @@
         width: calc(100% - 4rem);
     }
 }
+
+/* 
+  ##Dark mode
+*/
+@media (prefers-color-scheme: dark) {
+    .main {
+        background-color: #161B22;
+    }
+
+    .column {
+        background-color: #1a1c1f;
+        box-shadow: 0 0 0 1px #393F4B,
+            0 2px 4px 0 rgb(0 0 0 / 7%),
+            0 1px 1.5px 0 rgb(0 0 0 / 5%);
+    }
+
+    .input {
+        background-color: #0D1116;
+        box-shadow: 0 0 0 1px #30363D,
+            0 2px 4px 0 rgb(0 0 0 / 7%),
+            0 1px 1.5px 0 rgb(0 0 0 / 5%);
+    }
+}

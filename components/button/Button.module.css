@@ -24,3 +24,12 @@
     align-items: center;
     justify-content: center;
 }
+
+/* 
+  ##Dark mode
+*/
+@media (prefers-color-scheme: dark) {
+    .button {
+        background-color: var(--primary) !important;
+    }
+}

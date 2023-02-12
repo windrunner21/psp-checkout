@@ -110,7 +110,7 @@
     }
 }
 
-/* 
+/*
   ##Device = Low Resolution Tablets, Mobiles (Landscape)
   ##Screen = B/w 481px to 767px
 */
@@ -121,3 +121,13 @@
   ##Screen = B/w 320px to 479px
 */
 @media (min-width: 320px) and (max-width: 480px) {}
+
+
+/* 
+  ##Dark mode
+*/
+@media (prefers-color-scheme: dark) {
+    .main {
+        background-color: #161B22;
+    }
+}

@@ -27,7 +27,6 @@
     box-shadow: 0 0 0 1px #e0e0e0,
         0 2px 4px 0 rgb(0 0 0 / 7%),
         0 1px 1.5px 0 rgb(0 0 0 / 5%);
-    ;
 }
 
 .input:focus,
@@ -56,4 +55,16 @@
     font-size: 0.9rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
+}
+
+/* 
+  ##Dark mode
+*/
+@media (prefers-color-scheme: dark) {
+    .input {
+        background-color: #0D1116;
+        box-shadow: 0 0 0 1px #30363D,
+            0 2px 4px 0 rgb(0 0 0 / 7%),
+            0 1px 1.5px 0 rgb(0 0 0 / 5%);
+    }
 }
