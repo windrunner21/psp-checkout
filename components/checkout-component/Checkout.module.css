@@ -67,3 +67,57 @@
     width: 8vh;
     height: 8vh;
 }
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+    .main {
+        padding: 5% 25%;
+        height: 100%;
+    }
+
+    .storeLogo {
+        top: 2.5%;
+        right: 25%;
+
+        width: 3vh;
+        height: 3vh;
+    }
+
+    .items {
+        margin: 3rem 0;
+    }
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .main {
+        padding: 15% 10%;
+        height: 100vh;
+    }
+
+    .storeLogo {
+        top: 5%;
+        right: calc(50vw + 5%);
+
+        width: 8vh;
+        height: 8vh;
+    }
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 767px) {}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+@media (min-width: 320px) and (max-width: 480px) {}

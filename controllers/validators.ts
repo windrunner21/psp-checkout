@@ -1,4 +1,31 @@
+import { ChangeEvent } from "react";
 import { RE_EMAIL, RE_NAME } from "../constants";
+
+// explanation in comments, makes strong use of regular expressions
+export function formatCardNumber(e: ChangeEvent<HTMLInputElement>) {
+  //remove all the empty spaces in the input
+  const inputVal = e.target.value.replace(/ /g, "");
+
+  // get only digits
+  let inputNumbersOnly = inputVal.replace(/\D/g, "");
+
+  // if entered value has a length greater than 16 then take only the first 16 digits,
+  // for example if value has been copy pasted
+  if (inputNumbersOnly.length > 16) {
+    inputNumbersOnly = inputNumbersOnly.substring(0, 16);
+  }
+
+  // Get nd array of 4 digits per an element, for example ["4242", "4242", ...]
+  const splits = inputNumbersOnly.match(/.{1,4}/g);
+
+  let spacedCreditCardNumber = "";
+  // Join all the splits with an empty space
+  if (splits) {
+    spacedCreditCardNumber = splits.join(" ");
+  }
+
+  return spacedCreditCardNumber;
+}
 
 export function isValidCardNumber(target: EventTarget) {
   const targetStrong = target as HTMLTextAreaElement;

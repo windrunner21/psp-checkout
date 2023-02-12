@@ -26,6 +26,12 @@ const Payment = (props: PaymentProps) => {
     const [cardHolderNameHasError, setCardHolderNameHasError] = useState(false)
     const [emailHasError, setEmailHasError] = useState(false)
 
+    function doesFormHasErrors() {
+        const formIsEmpty = cardNumber == "" || month == "" || year == "" || cvc == "" || cardHolderName == "" || email == ""
+        const formHasErrors = cardNumberHasError || monthHasError || yearHasError || cvcHasError || cardHolderNameHasError || emailHasError
+        return formIsEmpty || formHasErrors
+    }
+
     return (
         <div className={styles.main}>
             {/* white content itself */}
@@ -118,6 +124,8 @@ const Payment = (props: PaymentProps) => {
                             backgroundColor='var(--black)'
                             fontSize='1.2rem'
                             radius='0.4rem'
+
+                            disabled={doesFormHasErrors()}
                         />
                     </div>
                 </div>

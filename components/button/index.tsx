@@ -14,6 +14,7 @@ const Button = (props: ButtonProps) => {
                     borderRadius: props.radius
                 }}
                 className={styles.button}
+                disabled={props.disabled}
             >
                 {props.label}
             </button>

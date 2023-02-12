@@ -6,6 +6,8 @@ interface ButtonProps {
   color?: string;
   fontSize?: string;
   radius?: string;
+
+  disabled?: boolean;
 }
 
 export default ButtonProps;

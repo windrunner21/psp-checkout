@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { useState, useRef, ChangeEvent } from "react";
-import { isValidCardNumber, isValidCVC, isValidMonth, isValidNameSurname, isValidYear } from "../../controllers/validators";
+import { useRef } from "react";
+import { formatCardNumber, isValidCardNumber, isValidCVC, isValidMonth, isValidNameSurname, isValidYear } from "../../controllers/validators";
 import styles from "./CardForm.module.css"
 import CardProps from "./interface";
 
@@ -10,32 +10,6 @@ const CardForm = (props: CardProps) => {
     const yearRef = useRef<HTMLInputElement>(null);
     const cvcRef = useRef<HTMLInputElement>(null);
     const cardHolderNameRef = useRef<HTMLInputElement>(null);
-
-    // explanation in comments, makes strong use of regular expressions
-    function formatCardNumber(e: ChangeEvent<HTMLInputElement>) {
-        //remove all the empty spaces in the input
-        const inputVal = e.target.value.replace(/ /g, "");
-
-        // get only digits
-        let inputNumbersOnly = inputVal.replace(/\D/g, "");
-
-        // if entered value has a length greater than 16 then take only the first 16 digits,
-        // for example if value has been copy pasted
-        if (inputNumbersOnly.length > 16) {
-            inputNumbersOnly = inputNumbersOnly.substring(0, 16);
-        }
-
-        // Get nd array of 4 digits per an element, for example ["4242", "4242", ...]
-        const splits = inputNumbersOnly.match(/.{1,4}/g);
-
-        let spacedCreditCardNumber = "";
-        // Join all the splits with an empty space
-        if (splits) {
-            spacedCreditCardNumber = splits.join(" ");
-        }
-
-        props.setCardNumber(spacedCreditCardNumber);
-    }
 
     return (
         <div className={styles.main}>
@@ -50,7 +24,7 @@ const CardForm = (props: CardProps) => {
                         maxLength={19}
                         value={props.cardNumber}
                         onChange={(e) => {
-                            formatCardNumber(e);
+                            props.setCardNumber(formatCardNumber(e));
                             if (e.target.value.length === 19) {
                                 if (isValidCardNumber(e.target)) {
                                     monthRef.current!.focus();
@@ -76,7 +50,7 @@ const CardForm = (props: CardProps) => {
                     <div className={styles.row}>
                         <input
                             className={`${styles.input} ${props.monthHasError && styles.inputError}`}
-                            style={{ borderTopLeftRadius: '0.4rem', borderBottomLeftRadius: '0.4rem', marginRight: '-1rem' }}
+                            style={{ borderTopLeftRadius: '0.4rem', borderBottomLeftRadius: '0.4rem' }}
                             placeholder="Month"
                             maxLength={2}
                             value={props.month}
@@ -98,7 +72,6 @@ const CardForm = (props: CardProps) => {
                         />
                         <input
                             className={`${styles.input} ${props.yearHasError && styles.inputError}`}
-                            style={{ marginRight: '-1rem' }}
                             placeholder="Year"
                             maxLength={2}
                             value={props.year}
@@ -145,10 +118,10 @@ const CardForm = (props: CardProps) => {
                 </div>
 
                 {/* card holder */}
-                <span className={styles.label}>Card Holder Information</span>
+                <span className={styles.label}>Card Holder Name</span>
                 <input
                     className={`${styles.input} ${props.cardHolderNameHasError && styles.inputError}`}
-                    placeholder="Enter your full name"
+                    placeholder="Name Surname"
                     style={{ borderRadius: '0.4rem', textTransform: 'capitalize' }}
                     value={props.cardHolderName}
                     onChange={(e) => props.setCardHolderName((v: string) => (e.target.validity.valid ? e.target.value : v))}

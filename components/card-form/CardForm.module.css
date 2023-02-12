@@ -21,25 +21,23 @@
     width: 100%;
     margin-bottom: 1rem;
     outline: none;
-    border: 0.1rem solid #D2D4D8;
+    border: none;
     height: 2.5rem;
     padding: 0rem 1rem;
+    box-shadow: 0 0 0 1px #e0e0e0,
+        0 2px 4px 0 rgb(0 0 0 / 7%),
+        0 1px 1.5px 0 rgb(0 0 0 / 5%);
+    ;
 }
 
-.input:hover,
 .input:focus,
 .input:active {
-    border-color: var(--primary);
-}
-
-.inputError {
-    border-color: var(--error-primary);
-    background-color: var(--error);
+    outline: 0.1rem solid var(--primary)
 }
 
 .inputError:hover,
 .inputError:focus {
-    border-color: var(--error-primary);
+    outline: none
 }
 
 .associations {
