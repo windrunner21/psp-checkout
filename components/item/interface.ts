@@ -1,7 +1,7 @@
 interface ItemProps {
   name: string;
-  description: string;
-  price: string;
+  price: number;
+  description?: string;
   image?: string;
   discountRate?: string;
 }
