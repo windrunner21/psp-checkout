@@ -33,6 +33,12 @@
     font-weight: 600;
 }
 
+.times {
+    font-size: 0.8rem;
+    color: var(--text);
+    font-weight: 400;
+}
+
 .image {
     position: relative;
     width: 7.5vw;

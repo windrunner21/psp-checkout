@@ -12,7 +12,7 @@ const Checkout = (props: CheckoutProps) => {
     useEffect(() => {
         let tempPrice: number = 0
         props.items.forEach(item => {
-            tempPrice = + item.price
+            tempPrice += item.price * item.quantity
         });
 
         setTotalPrice(tempPrice)
@@ -23,9 +23,9 @@ const Checkout = (props: CheckoutProps) => {
             <div className={styles.column}>
                 {/* store logo if exists */}
                 {
-                    true &&
+                    props.merchant.logo &&
                     <div className={styles.storeLogo}>
-                        <Image src="/test-logos/appletvplus.svg" alt="back" fill style={{ borderRadius: '0.4rem' }} />
+                        <Image src={props.merchant.logo} alt="back" fill style={{ borderRadius: '0.4rem' }} />
                     </div>
                 }
                 <div style={{ height: "1rem" }} />
@@ -36,7 +36,7 @@ const Checkout = (props: CheckoutProps) => {
                         <Image src="/mui-icons/back.svg" alt="back" width={20} height={20} style={{ height: "100%", width: "100%" }} />
                     </div>
                     <div style={{ width: "1rem" }} />
-                    <span className={styles.store}>Apple TV+</span>
+                    <span className={styles.store}>{props.merchant.displayName}</span>
                 </div>
 
                 <div style={{ height: "2.5rem" }} />
@@ -52,7 +52,7 @@ const Checkout = (props: CheckoutProps) => {
                 {/* items */}
                 <div className={`${styles.column} ${styles.items}`}>
                     {props.items.map((item, index) => (
-                        <Item key={index} name={item.name} price={item.price} description={item.description} image={item.image} />
+                        <Item key={index} name={item.name} price={item.price} quantity={item.quantity} description={item.description} image={item.image} />
                     ))}
                 </div>
 

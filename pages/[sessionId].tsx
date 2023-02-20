@@ -7,6 +7,7 @@ import Payment from '../components/payment-component'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Page404 from './_error'
 import { CheckoutSession } from '../models/checkout-session'
+import { useMerchant } from '../network/swr'
 
 type CheckoutData = {
   success?: CheckoutSession
@@ -17,8 +18,14 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
 
   if (data.error) return <Page404 />
 
+  const { merchant, isLoading, isError } = useMerchant!(data.success!.publicKey)
+
+  if (isError) return <Page404 />
+
+  if (isLoading) return <></>
+
   return (
-    <div className={styles.container}>
+    merchant && <div className={styles.container}>
       <Head>
         <title>Checkout | Odero</title>
         <meta name="description" content="Odero Checkout Page" />
@@ -28,7 +35,7 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
 
       <main className={styles.main}>
         <div className={styles.leftContainer}>
-          <Checkout items={data.success!.items} />
+          <Checkout items={data.success!.items} merchant={merchant.success} />
         </div>
         <div className={styles.rightContainer}>
           <Payment />

@@ -13,11 +13,11 @@ const Item = (props: ItemProps) => {
                     {props.image && <div className={`${styles.row} ${styles.image}`}>
                         <Image src={props.image} alt="back" fill style={{ borderRadius: '0.4rem' }} />
                     </div>}
-                    {/* name and description */}
+                    {/* name, description and quantity */}
                     <div className={styles.column}>
                         <span className={styles.name}>{props.name}</span>
-                        <div style={{ height: "1rem" }} />
-                        <span className={styles.description} style={{ width: props.image ? '15vw' : "30vw" }}>{props.description}</span>
+                        {props.description && <span className={styles.description} style={{ width: props.image ? '15vw' : "30vw", marginTop: "1rem" }}>{props.description}</span>}
+                        <span className={styles.times} style={{ marginTop: "1rem" }}>Quantity: {props.quantity}</span>
                     </div>
                 </div>
                 {/* price */}
