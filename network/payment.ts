@@ -1,17 +1,16 @@
 import axios from "axios";
 import { HOST, PORT, CONNECTION } from "../constants";
-import { CompleteCheckoutSession } from "../models/complete-checkout-session";
+import { PaymentDetails } from "../models/payment-details";
 
 export const completeCheckoutSession = (
   sessionId: string,
-  completeCheckoutSessionData: CompleteCheckoutSession
+  payment_details: PaymentDetails
 ) =>
   axios
     .post(
       `${CONNECTION}://${HOST}:${PORT}/v1/checkout/session/${sessionId}/complete`,
       {
-        payment_status: completeCheckoutSessionData.payment_status,
-        payment_details: completeCheckoutSessionData.payment_details,
+        ...payment_details,
       },
       {
         headers: {

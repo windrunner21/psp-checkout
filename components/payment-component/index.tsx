@@ -3,11 +3,9 @@ import PaymentProps from './interface';
 import OderoLogo from '../logo';
 import CardForm from '../card-form';
 import Button from '../button';
-import { useState, useRef } from 'react';
-import { isValidEmailAddress } from '../../controllers/validators';
+import { useState, useRef, useEffect } from 'react';
+import { getCardBrand, isValidEmailAddress } from '../../controllers/validators';
 import { completeCheckoutSession } from '../../network/payment';
-import { CompleteCheckoutSession } from '../../models/complete-checkout-session';
-import { PaymentStatus } from '../../models/enums/payment-status';
 import { PaymentDetails } from '../../models/payment-details';
 import { Card } from '../../models/card';
 import { CardBrand } from '../../models/enums/card-brand';
@@ -34,6 +32,17 @@ const Payment = (props: PaymentProps) => {
 
     const [loading, setLoading] = useState(false)
 
+    const [totalPrice, setTotalPrice] = useState(0)
+
+    useEffect(() => {
+        let tempPrice: number = 0
+        props.items.forEach(item => {
+            tempPrice += item.price * item.quantity
+        });
+
+        setTotalPrice(tempPrice)
+    }, [props.items])
+
     function doesFormHasErrors() {
         const formIsEmpty = cardNumber == "" || month == "" || year == "" || cvc == "" || cardHolderName == "" || email == ""
         const formHasErrors = cardNumberHasError || monthHasError || yearHasError || cvcHasError || cardHolderNameHasError || emailHasError
@@ -41,28 +50,22 @@ const Payment = (props: PaymentProps) => {
     }
 
     async function sendCompleteCheckoutSessionRequest() {
-
-        // todo check which brand
         const card = {
             exp_month: month,
             exp_year: year,
-            last4: cardNumber,
+            last4: cardNumber.slice(-4),
             name: cardHolderName,
-            brand: CardBrand.visa
+            brand: getCardBrand(cardNumber)
         } as Card
 
         const paymentDetails = {
             card: card,
-            email: email
+            email: email,
+            price: totalPrice
         } as PaymentDetails
 
-        const completeCheckoutSessionData = {
-            payment_status: PaymentStatus.paid,
-            payment_details: paymentDetails
-        } as CompleteCheckoutSession
-
         setLoading(true)
-        const response = await completeCheckoutSession(props.sessionId, completeCheckoutSessionData)
+        const response = await completeCheckoutSession(props.sessionId, paymentDetails)
         setLoading(false)
 
         if (response.success) {

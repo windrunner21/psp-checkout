@@ -45,7 +45,7 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
           <Checkout items={data.success!.items} merchant={merchant.success} />
         </div>
         <div className={styles.rightContainer}>
-          <Payment sessionId={data.success!.id} setPaymentResponse={setResponseModal} setSuccess={setSuccess} />
+          <Payment items={data.success!.items} sessionId={data.success!.id} setPaymentResponse={setResponseModal} setSuccess={setSuccess} />
         </div>
         {responseModal && <ResponseModal id={data.success!.id} successUrl={data.success!.success_url} success={success} setResponseModal={setResponseModal} />}
       </main>

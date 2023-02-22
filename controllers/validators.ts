@@ -1,5 +1,18 @@
 import { ChangeEvent } from "react";
-import { RE_EMAIL, RE_NAME } from "../constants";
+import { RE_EMAIL, RE_MASTERCARD, RE_NAME, RE_VISA } from "../constants";
+import { CardBrand } from "../models/enums/card-brand";
+
+export function getCardBrand(number: string) {
+  const value = number.replace(/\D/g, "");
+
+  if (RegExp(RE_VISA).test(value)) {
+    return CardBrand.visa;
+  }
+
+  if (RegExp(RE_MASTERCARD).test(value)) {
+    return CardBrand.mastercard;
+  }
+}
 
 // explanation in comments, makes strong use of regular expressions
 export function formatCardNumber(e: ChangeEvent<HTMLInputElement>) {
