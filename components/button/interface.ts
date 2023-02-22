@@ -8,6 +8,8 @@ interface ButtonProps {
   radius?: string;
 
   disabled?: boolean;
+
+  onClick?: (params: any) => void;
 }
 
 export default ButtonProps;

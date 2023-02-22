@@ -8,6 +8,9 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Page404 from './_error'
 import { CheckoutSession } from '../models/checkout-session'
 import { useMerchant } from '../network/swr'
+import { CONNECTION, HOST, PORT } from '../constants'
+import ResponseModal from '../components/response-modal'
+import { useState } from 'react'
 
 type CheckoutData = {
   success?: CheckoutSession
@@ -18,14 +21,17 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
 
   if (data.error) return <Page404 />
 
-  const { merchant, isLoading, isError } = useMerchant!(data.success!.publicKey)
+  const { merchant, isLoading, isError } = useMerchant!(data.success!.public_key)
+  // show response modal only if payment response is returned
+  const [responseModal, setResponseModal] = useState!(false)
+  const [success, setSuccess] = useState!(false)
 
   if (isError) return <Page404 />
 
   if (isLoading) return <></>
 
   return (
-    merchant && <div className={styles.container}>
+    merchant && <div>
       <Head>
         <title>Checkout | Odero</title>
         <meta name="description" content="Odero Checkout Page" />
@@ -38,8 +44,9 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
           <Checkout items={data.success!.items} merchant={merchant.success} />
         </div>
         <div className={styles.rightContainer}>
-          <Payment />
+          <Payment sessionId={data.success!.id} setPaymentResponse={setResponseModal} setSuccess={setSuccess} />
         </div>
+        {responseModal && <ResponseModal id={data.success!.id} successUrl={data.success!.success_url} success={success} setResponseModal={setResponseModal} />}
       </main>
     </div>
   )
@@ -47,7 +54,7 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
 
 export const getServerSideProps: GetServerSideProps<{ data: CheckoutData }> = async (context) => {
   const sessionId = context.params?.sessionId
-  const res = await fetch(`http://localhost:2106/v1/checkout/session/${sessionId}`)
+  const res = await fetch(`${CONNECTION}://${HOST}:${PORT}/v1/checkout/session/${sessionId}`)
   const data: CheckoutData = await res.json()
 
   return {

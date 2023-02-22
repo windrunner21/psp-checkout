@@ -1,0 +1,53 @@
+.main {
+    width: 100%;
+    min-height: 100vh;
+
+    background-color: var(--secondary);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 450px;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 0.6rem;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 0 0 1px #e0e0e0,
+        0 2px 4px 0 rgb(0 0 0 / 7%),
+        0 1px 1.5px 0 rgb(0 0 0 / 5%);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--black);
+}
+
+.title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--black);
+}
+
+.label {
+    color: var(--text);
+}
+
+.value {
+    color: var(--text);
+}

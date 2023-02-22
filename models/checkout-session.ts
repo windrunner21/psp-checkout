@@ -22,5 +22,5 @@ export type CheckoutSession = {
   url: string;
   livemode: string;
 
-  publicKey: string;
+  public_key: string;
 };

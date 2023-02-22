@@ -5,6 +5,12 @@ import CardForm from '../card-form';
 import Button from '../button';
 import { useState, useRef } from 'react';
 import { isValidEmailAddress } from '../../controllers/validators';
+import { completeCheckoutSession } from '../../network/payment';
+import { CompleteCheckoutSession } from '../../models/complete-checkout-session';
+import { PaymentStatus } from '../../models/enums/payment-status';
+import { PaymentDetails } from '../../models/payment-details';
+import { Card } from '../../models/card';
+import { CardBrand } from '../../models/enums/card-brand';
 
 const Payment = (props: PaymentProps) => {
 
@@ -30,6 +36,37 @@ const Payment = (props: PaymentProps) => {
         const formIsEmpty = cardNumber == "" || month == "" || year == "" || cvc == "" || cardHolderName == "" || email == ""
         const formHasErrors = cardNumberHasError || monthHasError || yearHasError || cvcHasError || cardHolderNameHasError || emailHasError
         return formIsEmpty || formHasErrors
+    }
+
+    async function sendCompleteCheckoutSessionRequest() {
+
+        // todo check which brand
+        const card = {
+            exp_month: month,
+            exp_year: year,
+            last4: cardNumber,
+            name: cardHolderName,
+            brand: CardBrand.visa
+        } as Card
+
+        const paymentDetails = {
+            card: card,
+            email: email
+        } as PaymentDetails
+
+        const completeCheckoutSessionData = {
+            payment_status: PaymentStatus.paid,
+            payment_details: paymentDetails
+        } as CompleteCheckoutSession
+
+        const response = await completeCheckoutSession(props.sessionId, completeCheckoutSessionData)
+
+        if (response.success) {
+            props.setPaymentResponse(true)
+            props.setSuccess(true)
+        } else {
+            props.setPaymentResponse(true)
+        }
     }
 
     return (
@@ -126,6 +163,8 @@ const Payment = (props: PaymentProps) => {
                             radius='0.4rem'
 
                             disabled={doesFormHasErrors()}
+
+                            onClick={sendCompleteCheckoutSessionRequest}
                         />
                     </div>
                 </div>
