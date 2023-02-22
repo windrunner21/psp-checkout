@@ -1,0 +1,136 @@
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.skeletonLabel {
+    border-radius: 0.4rem;
+    background: #eee;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+}
+
+/*
+* SKELETON FOR CHECKOUT PAGE
+*/
+.skeletonCheckoutMain {
+    position: relative;
+
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.skeletonCheckoutLeftContainer {
+    width: 100%;
+    background-color: var(--secondary);
+}
+
+.skeletonCheckoutLeftMain {
+    padding: 15% 10%;
+    height: 100vh;
+}
+
+.skeletonCheckoutLeftColumn {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.skeletonCheckoutLeftItems {
+    height: 100%;
+    overflow: auto;
+    margin: 4rem 0;
+}
+
+.skeletonCheckoutRightContainer {
+    width: 100%;
+}
+
+.skeletonCheckoutRightMain {
+    padding: 5% 0;
+    height: 100vh;
+    background-color: var(--secondary);
+}
+
+.skeletonCheckoutRightColumn {
+    border-top-left-radius: 0.6rem;
+    border-bottom-left-radius: 0.6rem;
+    height: 100%;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    overflow: auto;
+}
+
+.skeletonCheckoutRightContent {
+    width: 25vw;
+}
+
+.skeletonCheckoutRightForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.skeletonCheckoutRightRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.skeletonCheckoutRightHr {
+    flex-grow: 1;
+    height: 0.1rem;
+    background-color: #E1E1E1;
+}
+
+/*
+* SKELETON FOR RECEIPT PAGE
+*/
+.skeletonReceiptMain {
+    width: 100%;
+    min-height: 100vh;
+
+    background-color: var(--secondary);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.skeletonReceiptContainer {
+    width: 450px;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 0.6rem;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 0 0 1px #e0e0e0,
+        0 2px 4px 0 rgb(0 0 0 / 7%),
+        0 1px 1.5px 0 rgb(0 0 0 / 5%);
+}
+
+.skeletonReceiptRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}

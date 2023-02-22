@@ -4,6 +4,8 @@ import OderoLogo from '../../components/logo'
 import { useTransaction } from '../../network/swr'
 import { useRouter } from 'next/router'
 import Page404 from '../_error'
+import { formatDate, formatTime } from '../../controllers/formatting'
+import { ReceiptSkeleton } from '../../components/loading'
 
 const Receipt = () => {
     const router = useRouter()
@@ -12,7 +14,7 @@ const Receipt = () => {
 
     if (isError) return <Page404 />
 
-    if (isLoading) return <></>
+    if (isLoading) return <ReceiptSkeleton />
 
     return (
         transaction && <div>
@@ -36,12 +38,12 @@ const Receipt = () => {
                     <div style={{ height: "1.5rem" }} />
                     <div className={styles.row}>
                         <span className={styles.label}>Date</span>
-                        <span className={styles.value}>{transaction.success.date}</span>
+                        <span className={styles.value}>{formatDate(transaction.success.date)}</span>
                     </div>
                     <div style={{ height: "1.5rem" }} />
                     <div className={styles.row}>
                         <span className={styles.label}>Time</span>
-                        <span className={styles.value}>{transaction.success.date}</span>
+                        <span className={styles.value}>{formatTime(transaction.success.date)}</span>
                     </div>
                     <div style={{ height: "1.5rem" }} />
                     <div className={styles.row}>

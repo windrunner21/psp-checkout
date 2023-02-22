@@ -11,6 +11,7 @@ import { useMerchant } from '../network/swr'
 import { CONNECTION, HOST, PORT } from '../constants'
 import ResponseModal from '../components/response-modal'
 import { useState } from 'react'
+import { CheckoutSkeleton } from '../components/loading'
 
 type CheckoutData = {
   success?: CheckoutSession
@@ -28,7 +29,7 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
 
   if (isError) return <Page404 />
 
-  if (isLoading) return <></>
+  if (isLoading) return <CheckoutSkeleton />
 
   return (
     merchant && <div>
