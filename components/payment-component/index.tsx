@@ -32,6 +32,8 @@ const Payment = (props: PaymentProps) => {
     const [cardHolderNameHasError, setCardHolderNameHasError] = useState(false)
     const [emailHasError, setEmailHasError] = useState(false)
 
+    const [loading, setLoading] = useState(false)
+
     function doesFormHasErrors() {
         const formIsEmpty = cardNumber == "" || month == "" || year == "" || cvc == "" || cardHolderName == "" || email == ""
         const formHasErrors = cardNumberHasError || monthHasError || yearHasError || cvcHasError || cardHolderNameHasError || emailHasError
@@ -59,7 +61,9 @@ const Payment = (props: PaymentProps) => {
             payment_details: paymentDetails
         } as CompleteCheckoutSession
 
+        setLoading(true)
         const response = await completeCheckoutSession(props.sessionId, completeCheckoutSessionData)
+        setLoading(false)
 
         if (response.success) {
             props.setPaymentResponse(true)
@@ -163,6 +167,7 @@ const Payment = (props: PaymentProps) => {
                             radius='0.4rem'
 
                             disabled={doesFormHasErrors()}
+                            loading={loading}
 
                             onClick={sendCompleteCheckoutSessionRequest}
                         />

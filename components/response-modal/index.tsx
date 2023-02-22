@@ -26,6 +26,8 @@ const ResponseModal = (props: ModalProps) => {
                         backgroundColor='var(--text)'
                         fontSize='1.1rem'
                         radius='0.4rem'
+
+                        loading={false}
                     />
                     <Link href={props.successUrl}>
                         <Button
@@ -36,6 +38,8 @@ const ResponseModal = (props: ModalProps) => {
                             backgroundColor='var(--primary)'
                             fontSize='1.1rem'
                             radius='0.4rem'
+
+                            loading={false}
                         />
                     </Link>
                 </div>}
@@ -48,6 +52,8 @@ const ResponseModal = (props: ModalProps) => {
                         backgroundColor='var(--text)'
                         fontSize='1.1rem'
                         radius='0.4rem'
+
+                        loading={false}
                         onClick={() => props.setResponseModal(false)}
                     />
                 </div>}

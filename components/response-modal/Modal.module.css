@@ -12,6 +12,8 @@
 
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
+
+    animation: fadeIn .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
 }
 
 .container {
@@ -27,6 +29,8 @@
     box-shadow: 0 0 0 1px #e0e0e0,
         0 2px 4px 0 rgb(0 0 0 / 7%),
         0 1px 1.5px 0 rgb(0 0 0 / 5%);
+
+    animation: zoomIn .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
 }
 
 .row {
@@ -49,4 +53,47 @@
 
 .link {
     color: var(--primary);
+}
+
+/*
+* ANIMATION KEYFRAMES 
+*/
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomOut {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        background: rgba(0, 0, 0, .0);
+    }
+
+    100% {
+        background: rgba(0, 0, 0, .7);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        background: rgba(0, 0, 0, .7);
+    }
+
+    100% {
+        background: rgba(0, 0, 0, .0);
+    }
 }

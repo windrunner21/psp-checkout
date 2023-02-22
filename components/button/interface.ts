@@ -10,6 +10,8 @@ interface ButtonProps {
   disabled?: boolean;
 
   onClick?: (params: any) => void;
+
+  loading: boolean;
 }
 
 export default ButtonProps;

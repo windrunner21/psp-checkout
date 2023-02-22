@@ -14,10 +14,11 @@ const Button = (props: ButtonProps) => {
                     borderRadius: props.radius
                 }}
                 className={styles.button}
-                disabled={props.disabled}
+                disabled={props.disabled || props.loading}
                 onClick={props.onClick}
             >
-                {props.label}
+                {props.loading ? 'Processing' : props.label}
+                {props.loading && <span className={styles.loader} />}
             </button>
         </div>
     )
