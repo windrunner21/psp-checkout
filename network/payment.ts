@@ -18,7 +18,8 @@ export const completeCheckoutSession = (
         },
       }
     )
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((error) => error.response.data);
 
 export const getTransaction = (sessionId: string) =>
   axios

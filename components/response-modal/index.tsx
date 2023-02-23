@@ -13,7 +13,7 @@ const ResponseModal = (props: ModalProps) => {
                 <span className={styles.title}>Payment {props.success ? 'successful' : 'has failed'}</span>
                 <div style={{ height: "0.5rem" }} />
                 {props.success ?
-                    <span className={styles.subtitle}>Your payment has been processed successfully. Here are your <Link href={`/${props.id}/receipt`} className={styles.link}>payment detals</Link>.</span>
+                    <span className={styles.subtitle}>Your payment has been processed successfully. Here are your <a href={`/${props.id}/receipt`} target="_blank" className={styles.link} rel="noopener noreferrer">payment detals</a>.</span>
                     :
                     <span className={styles.subtitle}>Your payment cannot be completed. Please check your payment details and try again.</span>}
                 <div style={{ height: "2rem" }} />

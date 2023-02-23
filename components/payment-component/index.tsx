@@ -8,7 +8,6 @@ import { getCardBrand, isValidEmailAddress } from '../../controllers/validators'
 import { completeCheckoutSession } from '../../network/payment';
 import { PaymentDetails } from '../../models/payment-details';
 import { Card } from '../../models/card';
-import { CardBrand } from '../../models/enums/card-brand';
 
 const Payment = (props: PaymentProps) => {
 
@@ -51,9 +50,10 @@ const Payment = (props: PaymentProps) => {
 
     async function sendCompleteCheckoutSessionRequest() {
         const card = {
+            number: cardNumber,
             exp_month: month,
             exp_year: year,
-            last4: cardNumber.slice(-4),
+            cvc: cvc,
             name: cardHolderName,
             brand: getCardBrand(cardNumber)
         } as Card
@@ -71,8 +71,10 @@ const Payment = (props: PaymentProps) => {
         if (response.success) {
             props.setPaymentResponse(true)
             props.setSuccess(true)
-        } else {
+        } else if (response.warning) {
             props.setPaymentResponse(true)
+        } else {
+            window.location.href = window.location.pathname;
         }
     }
 
