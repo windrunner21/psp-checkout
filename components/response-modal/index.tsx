@@ -18,17 +18,19 @@ const ResponseModal = (props: ModalProps) => {
                     <span className={styles.subtitle}>Your payment cannot be completed. Please check your payment details and try again.</span>}
                 <div style={{ height: "2rem" }} />
                 {props.success && <div className={styles.row}>
-                    <Button
-                        label='Print receipt'
-                        width="200px"
-                        height='40px'
-                        color='white'
-                        backgroundColor='var(--text)'
-                        fontSize='1.1rem'
-                        radius='0.4rem'
+                    <a href={`/${props.id}/receipt/print`} target="_blank" rel="noopener noreferrer">
+                        <Button
+                            label='Print receipt'
+                            width="200px"
+                            height='40px'
+                            color='white'
+                            backgroundColor='var(--text)'
+                            fontSize='1.1rem'
+                            radius='0.4rem'
 
-                        loading={false}
-                    />
+                            loading={false}
+                        />
+                    </a>
                     <Link href={props.successUrl}>
                         <Button
                             label='Next'

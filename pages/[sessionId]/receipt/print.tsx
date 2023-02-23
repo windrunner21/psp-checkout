@@ -1,11 +1,12 @@
-import styles from '../../styles/Receipt.module.css'
+import styles from '../../../styles/Print.module.css'
 import Head from 'next/head'
-import OderoLogo from '../../components/logo'
-import { useTransaction } from '../../network/swr'
+import OderoLogo from '../../../components/logo'
+import { useTransaction } from '../../../network/swr'
 import { useRouter } from 'next/router'
-import Page404 from '../_error'
-import { formatDate, formatTime } from '../../controllers/formatting'
-import { ReceiptSkeleton } from '../../components/loading'
+import Page404 from '../../_error'
+import { formatDate, formatTime } from '../../../controllers/formatting'
+import { ReceiptSkeleton } from '../../../components/loading'
+import { useEffect } from 'react'
 
 const Receipt = () => {
     const router = useRouter()
@@ -14,12 +15,16 @@ const Receipt = () => {
 
     if (isError) return <Page404 />
 
+    useEffect!(() => {
+        transaction && window.print()
+    })
+
     if (isLoading) return <ReceiptSkeleton />
 
     return (
         transaction && <div>
             <Head>
-                <title>Receipt | Odero</title>
+                <title>Print Receipt | Odero</title>
                 <meta name="description" content="Odero 404 Page" />
                 <meta name="keywords" content="Receipt Page, Checkout Page, Payment Page, Pay by link, Odero, Odero Azerbaijan, Visa, Mastercard" />
                 <link rel="icon" href="/odero.ico" />
