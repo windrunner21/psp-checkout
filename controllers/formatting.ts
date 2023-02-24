@@ -7,3 +7,7 @@ export const formatDate = (value: string) => {
 export const formatTime = (value: string) => {
   return moment(value).format("HH:mm");
 };
+
+export const formatFullName = (value: string) => {
+  return value.replace(/(^\w|\s\w)/g, (char) => char.toUpperCase());
+};

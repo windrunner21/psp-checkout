@@ -8,6 +8,7 @@ import { getCardBrand, isValidEmailAddress } from '../../controllers/validators'
 import { completeCheckoutSession } from '../../network/payment';
 import { PaymentDetails } from '../../models/payment-details';
 import { Card } from '../../models/card';
+import { formatFullName } from '../../controllers/formatting';
 
 const Payment = (props: PaymentProps) => {
 
@@ -54,7 +55,7 @@ const Payment = (props: PaymentProps) => {
             exp_month: month,
             exp_year: year,
             cvc: cvc,
-            name: cardHolderName,
+            name: formatFullName(cardHolderName),
             brand: getCardBrand(cardNumber)
         } as Card
 
