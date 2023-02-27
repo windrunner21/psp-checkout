@@ -69,9 +69,14 @@ const Payment = (props: PaymentProps) => {
         const response = await completeCheckoutSession(props.sessionId, paymentDetails)
         setLoading(false)
 
+        // TODO: refactor and update logic in the future
         if (response.success) {
-            props.setPaymentResponse(true)
-            props.setSuccess(true)
+            if (response.success.url) {
+                props.setThreeDSecureModal(true)
+            } else {
+                props.setPaymentResponse(true)
+                props.setSuccess(true)
+            }
         } else if (response.warning) {
             props.setPaymentResponse(true)
         } else {

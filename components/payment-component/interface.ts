@@ -6,6 +6,8 @@ interface PaymentProps {
 
   setPaymentResponse: (params: any) => void;
   setSuccess: (params: any) => void;
+
+  setThreeDSecureModal: (params: any) => void;
 }
 
 export default PaymentProps;

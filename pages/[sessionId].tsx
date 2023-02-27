@@ -12,6 +12,7 @@ import { CONNECTION, HOST, PORT } from '../constants'
 import ResponseModal from '../components/response-modal'
 import { useState } from 'react'
 import { CheckoutSkeleton } from '../components/loading'
+import ThreeDSecure from './3dsecure'
 
 type CheckoutData = {
   success?: CheckoutSession
@@ -23,6 +24,8 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
   if (data.error) return <Page404 />
 
   const { merchant, isLoading, isError } = useMerchant!(data.success!.public_key)
+  // show 3dsecure modal only if response contains url
+  const [threeDSecureModal, setThreeDSecureModal] = useState!(false)
   // show response modal only if payment response is returned
   const [responseModal, setResponseModal] = useState!(false)
   const [success, setSuccess] = useState!(false)
@@ -45,9 +48,10 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
           <Checkout items={data.success!.items} merchant={merchant.success} />
         </div>
         <div className={styles.rightContainer}>
-          <Payment items={data.success!.items} sessionId={data.success!.id} setPaymentResponse={setResponseModal} setSuccess={setSuccess} />
+          <Payment items={data.success!.items} sessionId={data.success!.id} setThreeDSecureModal={setThreeDSecureModal} setPaymentResponse={setResponseModal} setSuccess={setSuccess} />
         </div>
         {responseModal && <ResponseModal id={data.success!.id} successUrl={data.success!.success_url} success={success} setResponseModal={setResponseModal} />}
+        {threeDSecureModal && <ThreeDSecure setThreeDSecureModal={setThreeDSecureModal} />}
       </main>
     </div>
   )

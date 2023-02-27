@@ -1,0 +1,130 @@
+.main {
+    position: fixed;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100vh;
+
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    animation: fadeIn .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
+
+.container {
+    position: relative;
+    background-color: white;
+    border-radius: 0.1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    line-height: 1.5rem;
+
+    padding: 2rem;
+    width: 400px;
+
+    box-shadow: 0 0 0 1px #e0e0e0,
+        0 2px 4px 0 rgb(0 0 0 / 7%),
+        0 1px 1.5px 0 rgb(0 0 0 / 5%);
+
+    animation: zoomIn .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.spaceBetween {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: gray;
+}
+
+.caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.circle {
+    position: absolute;
+    top: -2.5rem;
+    left: 0;
+
+    padding: 0.3rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 1.5px 10px rgb(0 0 0 / 0.15);
+}
+
+.circle:hover {
+    cursor: pointer;
+    box-shadow: 0 1.5px 10px rgb(0 0 0 / 0.3);
+}
+
+/*
+* ANIMATION KEYFRAMES 
+*/
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomOut {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        background: rgba(0, 0, 0, .0);
+    }
+
+    100% {
+        background: rgba(0, 0, 0, .7);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        background: rgba(0, 0, 0, .7);
+    }
+
+    100% {
+        background: rgba(0, 0, 0, .0);
+    }
+}
