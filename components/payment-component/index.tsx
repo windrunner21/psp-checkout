@@ -12,14 +12,6 @@ import { formatFullName } from '../../controllers/formatting';
 
 const Payment = (props: PaymentProps) => {
 
-    const [cardNumber, setCardNumber] = useState("")
-    const [month, setMonth] = useState("")
-    const [year, setYear] = useState("")
-    const [cvc, setCVC] = useState("")
-    const [cardHolderName, setCardHolderName] = useState("")
-    const [email, setEmail] = useState("")
-    const [phone, setPhone] = useState("")
-
     const emailRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
 
@@ -32,37 +24,26 @@ const Payment = (props: PaymentProps) => {
 
     const [loading, setLoading] = useState(false)
 
-    const [totalPrice, setTotalPrice] = useState(0)
-
-    useEffect(() => {
-        let tempPrice: number = 0
-        props.items.forEach(item => {
-            tempPrice += item.price * item.quantity
-        });
-
-        setTotalPrice(tempPrice)
-    }, [props.items])
-
     function doesFormHasErrors() {
-        const formIsEmpty = cardNumber == "" || month == "" || year == "" || cvc == "" || cardHolderName == "" || email == ""
+        const formIsEmpty = props.cardNumber == "" || props.month == "" || props.year == "" || props.cvc == "" || props.cardHolderName == "" || props.email == ""
         const formHasErrors = cardNumberHasError || monthHasError || yearHasError || cvcHasError || cardHolderNameHasError || emailHasError
         return formIsEmpty || formHasErrors
     }
 
     async function sendCompleteCheckoutSessionRequest() {
         const card = {
-            number: cardNumber,
-            exp_month: month,
-            exp_year: year,
-            cvc: cvc,
-            name: formatFullName(cardHolderName),
-            brand: getCardBrand(cardNumber)
+            number: props.cardNumber,
+            exp_month: props.month,
+            exp_year: props.year,
+            cvc: props.cvc,
+            name: formatFullName(props.cardHolderName),
+            brand: getCardBrand(props.cardNumber)
         } as Card
 
         const paymentDetails = {
             card: card,
-            email: email,
-            price: totalPrice
+            email: props.email,
+            price: props.totalPrice
         } as PaymentDetails
 
         setLoading(true)
@@ -95,17 +76,20 @@ const Payment = (props: PaymentProps) => {
 
                     {/* card form */}
                     <CardForm
-                        cardNumber={cardNumber}
-                        setCardNumber={setCardNumber}
-                        month={month}
-                        setMonth={setMonth}
-                        year={year}
+                        cardNumber={props.cardNumber}
+                        setCardNumber={props.setCardNumber}
 
-                        setYear={setYear}
-                        cvc={cvc}
-                        setCVC={setCVC}
-                        cardHolderName={cardHolderName}
-                        setCardHolderName={setCardHolderName}
+                        month={props.month}
+                        setMonth={props.setMonth}
+
+                        year={props.year}
+                        setYear={props.setYear}
+
+                        cvc={props.cvc}
+                        setCVC={props.setCVC}
+
+                        cardHolderName={props.cardHolderName}
+                        setCardHolderName={props.setCardHolderName}
 
                         cardNumberHasError={cardNumberHasError}
                         monthHasError={monthHasError}
@@ -138,8 +122,8 @@ const Payment = (props: PaymentProps) => {
                             className={`${styles.input} ${emailHasError && styles.inputError}`}
                             style={{ borderRadius: '0.4rem' }}
                             placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={props.email}
+                            onChange={(e) => props.setEmail(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' && false) {
                                     phoneRef!.current!.focus();
@@ -158,8 +142,8 @@ const Payment = (props: PaymentProps) => {
                                 className={styles.input}
                                 style={{ borderRadius: '0.4rem' }}
                                 placeholder="Enter your phone number"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                value={props.phone}
+                                onChange={(e) => props.setPhone(e.target.value)}
                                 ref={phoneRef}
                             />
                         </>

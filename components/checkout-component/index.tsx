@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Footer from '../footer-component';
 import Item from '../item';
@@ -32,10 +33,16 @@ const Checkout = (props: CheckoutProps) => {
 
                 {/* go back to store */}
                 <div className={styles.row}>
-                    <div className={styles.circle}>
-                        <Image src="/mui-icons/back.svg" alt="back" width={20} height={20} style={{ height: "100%", width: "100%" }} />
-                    </div>
-                    <div style={{ width: "1rem" }} />
+                    {props.cancelUrl &&
+                        <>
+                            <Link href={props.cancelUrl}>
+                                <div className={styles.circle}>
+                                    <Image src="/mui-icons/back.svg" alt="back" width={20} height={20} style={{ height: "100%", width: "100%" }} />
+                                </div>
+                            </Link>
+                            <div style={{ width: "1rem" }} />
+                        </>
+                    }
                     <span className={styles.store}>{props.merchant.displayName}</span>
                 </div>
 

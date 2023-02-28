@@ -20,7 +20,7 @@ export type CheckoutSession = {
   currency?: Currency;
 
   url: string;
-  livemode: string;
+  livemode: boolean;
 
   public_key: string;
 };

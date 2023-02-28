@@ -10,7 +10,7 @@ import { CheckoutSession } from '../models/checkout-session'
 import { useMerchant } from '../network/swr'
 import { CONNECTION, HOST, PORT } from '../constants'
 import ResponseModal from '../components/response-modal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CheckoutSkeleton } from '../components/loading'
 import ThreeDSecure from './3dsecure'
 
@@ -24,11 +24,30 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
   if (data.error) return <Page404 />
 
   const { merchant, isLoading, isError } = useMerchant!(data.success!.public_key)
+
+  // card and payment details
+  const [totalPrice, setTotalPrice] = useState!(0)
+  const [cardNumber, setCardNumber] = useState!("")
+  const [month, setMonth] = useState!("")
+  const [year, setYear] = useState!("")
+  const [cvc, setCVC] = useState!("")
+  const [cardHolderName, setCardHolderName] = useState!("")
+  const [email, setEmail] = useState!("")
+  const [phone, setPhone] = useState!("")
   // show 3dsecure modal only if response contains url
   const [threeDSecureModal, setThreeDSecureModal] = useState!(false)
   // show response modal only if payment response is returned
   const [responseModal, setResponseModal] = useState!(false)
   const [success, setSuccess] = useState!(false)
+
+  useEffect!(() => {
+    let tempPrice: number = 0
+    data.success!.items.forEach(item => {
+      tempPrice += item.price * item.quantity
+    });
+
+    setTotalPrice(tempPrice)
+  }, [])
 
   if (isError) return <Page404 />
 
@@ -44,14 +63,70 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
       </Head>
 
       <main className={styles.main}>
+        {/* left container serves for checkout component */}
         <div className={styles.leftContainer}>
-          <Checkout items={data.success!.items} merchant={merchant.success} />
+          {/* items and merchant info */}
+          <Checkout items={data.success!.items} merchant={merchant.success} cancelUrl={data.success!.cancel_url} />
         </div>
+        {/* right container serves for payment component */}
         <div className={styles.rightContainer}>
-          <Payment items={data.success!.items} sessionId={data.success!.id} setThreeDSecureModal={setThreeDSecureModal} setPaymentResponse={setResponseModal} setSuccess={setSuccess} />
+          {/* card details and payment details */}
+          <Payment
+            sessionId={data.success!.id}
+
+            totalPrice={totalPrice}
+            setTotalPrice={setTotalPrice}
+
+            cardNumber={cardNumber}
+            setCardNumber={setCardNumber}
+            month={month}
+            setMonth={setMonth}
+            year={year}
+            setYear={setYear}
+            cvc={cvc}
+            setCVC={setCVC}
+            cardHolderName={cardHolderName}
+            setCardHolderName={setCardHolderName}
+            email={email}
+            setEmail={setEmail}
+            phone={phone}
+            setPhone={setPhone}
+
+            setThreeDSecureModal={setThreeDSecureModal}
+            setPaymentResponse={setResponseModal}
+            setSuccess={setSuccess}
+          />
         </div>
+        {/* final result, whether payment is successful or has failed */}
         {responseModal && <ResponseModal id={data.success!.id} successUrl={data.success!.success_url} success={success} setResponseModal={setResponseModal} />}
-        {threeDSecureModal && <ThreeDSecure setThreeDSecureModal={setThreeDSecureModal} />}
+        {/* 3d secure modal both fake and real component */}
+        {threeDSecureModal &&
+          <ThreeDSecure
+            sessionId={data.success!.id}
+            livemode={data.success!.livemode}
+
+            totalPrice={totalPrice}
+            setTotalPrice={setTotalPrice}
+
+            cardNumber={cardNumber}
+            setCardNumber={setCardNumber}
+            month={month}
+            setMonth={setMonth}
+            year={year}
+            setYear={setYear}
+            cvc={cvc}
+            setCVC={setCVC}
+            cardHolderName={cardHolderName}
+            setCardHolderName={setCardHolderName}
+            email={email}
+            setEmail={setEmail}
+            phone={phone}
+            setPhone={setPhone}
+
+            setThreeDSecureModal={setThreeDSecureModal}
+            setPaymentResponse={setResponseModal}
+            setSuccess={setSuccess}
+          />}
       </main>
     </div>
   )
