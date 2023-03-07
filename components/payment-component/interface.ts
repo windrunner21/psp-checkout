@@ -25,6 +25,8 @@ interface PaymentProps {
   setSuccess: (params: any) => void;
 
   setThreeDSecureModal: (params: any) => void;
+  setThreeDSecureCardHolderBrowserInfo: (params: any) => void;
+  setThreeDSecureUrl: (params: any) => void;
 }
 
 export default PaymentProps;

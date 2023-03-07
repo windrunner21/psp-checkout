@@ -1,16 +1,15 @@
-/*
- * 3D Secure Page for Test Environment
- */
-
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../components/button";
 import { formatFullName } from "../controllers/formatting";
 import { getCardBrand } from "../controllers/validators";
+import { BankDetails } from "../models/bank-response";
 import { Card } from "../models/card";
+import { PaymentStatus } from "../models/enums/payment-status";
 import { ThreeDSecureStatus } from "../models/enums/three-d-secure-status";
 import { PaymentDetails } from "../models/payment-details";
-import { complete3DSecureCheckoutSession } from "../network/payment";
+import { checkCompleted3DSecureCheckoutSession, complete3DSecureCheckoutSession } from "../network/payment";
+import { useCheck3DSecure } from "../network/swr";
 import styles from "../styles/3DSecure.module.css";
 
 interface ThreeDSecureProps {
@@ -39,12 +38,45 @@ interface ThreeDSecureProps {
   setSuccess: (params: any) => void;
 
   setThreeDSecureModal: (params: any) => void;
+
+  setThreeDSecureCardHolderBrowserInfo: (params: any) => void;
+  threeDSecureCardHolderBrowserInfo: string
+  threeDSecureUrl: string
 }
 
 const ThreeDSecure = (props: ThreeDSecureProps) => {
   const [loading, setLoading] = useState(false)
+  const [shouldListen, setShouldListen] = useState(true)
+  const { data, isLoading } = useCheck3DSecure(props.sessionId, props.threeDSecureCardHolderBrowserInfo != "")
+  const threeDSecureForm = useRef<HTMLFormElement>(null);
 
-  async function sendComplete3DSecureCheckoutSessionRequest(threeDSecureStatus: ThreeDSecureStatus) {
+  async function sendCheckCompleted3DSecureCheckoutSessionRequest() {
+    const response = await checkCompleted3DSecureCheckoutSession(data.success.bankOrderId)
+
+    if (response.success) {
+      const bankDetails = {} as BankDetails
+      switch (response.success.orderStatus) {
+        case 2:
+          setShouldListen(false)
+          bankDetails.rrn = response.success.authCode
+          bankDetails.approval_code = response.success.approvalCode
+          sendComplete3DSecureCheckoutSessionRequest(ThreeDSecureStatus.succeeded, bankDetails)
+          break;
+        case 6:
+          setShouldListen(false)
+          sendComplete3DSecureCheckoutSessionRequest(ThreeDSecureStatus.failed, bankDetails)
+          break;
+        case 7:
+          setShouldListen(false)
+          sendComplete3DSecureCheckoutSessionRequest(ThreeDSecureStatus.failed, bankDetails)
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  async function sendComplete3DSecureCheckoutSessionRequest(threeDSecureStatus: ThreeDSecureStatus, bankDetails: BankDetails) {
     const card = {
       number: props.cardNumber,
       exp_month: props.month,
@@ -60,8 +92,10 @@ const ThreeDSecure = (props: ThreeDSecureProps) => {
       price: props.totalPrice
     } as PaymentDetails
 
+    bankDetails.payment_status = threeDSecureStatus == ThreeDSecureStatus.succeeded ? PaymentStatus.paid : PaymentStatus.unpaid
+
     setLoading(true)
-    const response = await complete3DSecureCheckoutSession(props.sessionId, paymentDetails, threeDSecureStatus)
+    const response = await complete3DSecureCheckoutSession(props.sessionId, paymentDetails, bankDetails, threeDSecureStatus)
     setLoading(false)
     props.setThreeDSecureModal(false)
 
@@ -75,17 +109,30 @@ const ThreeDSecure = (props: ThreeDSecureProps) => {
     }
   }
 
+  useEffect(() => {
+    if (data?.success?.acsUrl) {
+      threeDSecureForm.current?.submit();
+      var refreshIntervalId = setInterval(sendCheckCompleted3DSecureCheckoutSessionRequest, 1500);
+      return () => clearInterval(refreshIntervalId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, shouldListen]);
+
   return (
     <div className={styles.main}>
       <div className={styles.container}>
         {/* cancel 3d secure button */}
         <div className={styles.cancel}>
-          <div className={styles.circle} onClick={() => props.setThreeDSecureModal(false)}>
+          <div className={styles.circle} onClick={() => {
+            props.setThreeDSecureModal(false);
+            props.setThreeDSecureCardHolderBrowserInfo("")
+          }}>
             <Image src="/mui-icons/close.svg" alt="back" width={20} height={20} style={{ height: "100%", width: "100%" }} />
           </div>
         </div>
+
         {/* fake 3d secure page */}
-        {!props.livemode &&
+        {props.livemode &&
           <div>
             {/* title */}
             <span className={styles.title}>Fake 3D Secure 2</span>
@@ -104,7 +151,7 @@ const ThreeDSecure = (props: ThreeDSecureProps) => {
                 fontSize='1.1rem'
                 radius='0.4rem'
 
-                onClick={() => sendComplete3DSecureCheckoutSessionRequest(ThreeDSecureStatus.failed)}
+                onClick={() => sendComplete3DSecureCheckoutSessionRequest(ThreeDSecureStatus.failed, {} as BankDetails)}
                 loading={loading}
               />
               <Button
@@ -116,7 +163,7 @@ const ThreeDSecure = (props: ThreeDSecureProps) => {
                 fontSize='1.1rem'
                 radius='0.4rem'
 
-                onClick={() => sendComplete3DSecureCheckoutSessionRequest(ThreeDSecureStatus.succeeded)}
+                onClick={() => sendComplete3DSecureCheckoutSessionRequest(ThreeDSecureStatus.succeeded, {} as BankDetails)}
                 loading={loading}
               />
             </div>
@@ -124,20 +171,40 @@ const ThreeDSecure = (props: ThreeDSecureProps) => {
             {/* footer */}
             <span className={styles.caption}>Powered by Odero ©</span>
           </div>}
-        {props.livemode &&
+
+        {/* 3d secure page */}
+        {!props.livemode &&
           <div>
             {/* title */}
-            <span className={styles.title}>3D Secure Bank Page</span>
+            <span className={styles.title}>{(isLoading || !data?.success?.acsUrl) && 'Waiting for'} 3D Secure Page</span>
             <div style={{ height: "1rem" }} />
+
             {/* insert response for the 3d secure page */}
-            <div></div>
+            <iframe hidden srcDoc={props.threeDSecureCardHolderBrowserInfo} />
+
+            {(isLoading || !data?.success?.acsUrl) && <div className={styles.loaderContainer}>
+              <span className={styles.loader} />
+            </div>}
+
+            {data?.success?.acsUrl &&
+              <>
+                <form ref={threeDSecureForm} hidden method="post" action={data.success.acsUrl} target="_iframe">
+                  <input hidden type="text" name="creq" value={data.success.cReq} />
+                </form>
+                <iframe className={styles.iframe} name="_iframe" />
+              </>
+
+            }
+
             <div style={{ height: "2rem" }} />
             {/* footer */}
             <span className={styles.caption}>Powered by Odero ©</span>
-          </div>}
+          </div>
+        }
       </div>
-    </div>
+    </div >
   );
 };
 
 export default ThreeDSecure;
+

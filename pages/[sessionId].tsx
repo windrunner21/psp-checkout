@@ -34,8 +34,12 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
   const [cardHolderName, setCardHolderName] = useState!("")
   const [email, setEmail] = useState!("")
   const [phone, setPhone] = useState!("")
+
   // show 3dsecure modal only if response contains url
   const [threeDSecureModal, setThreeDSecureModal] = useState!(false)
+  const [threeDSecureCardHolderBrowserInfo, setThreeDSecureCardHolderBrowserInfo] = useState!("")
+  const [threeDSecureUrl, setThreeDSecureUrl] = useState!("")
+
   // show response modal only if payment response is returned
   const [responseModal, setResponseModal] = useState!(false)
   const [success, setSuccess] = useState!(false)
@@ -93,6 +97,9 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
             setPhone={setPhone}
 
             setThreeDSecureModal={setThreeDSecureModal}
+            setThreeDSecureCardHolderBrowserInfo={setThreeDSecureCardHolderBrowserInfo}
+            setThreeDSecureUrl={setThreeDSecureUrl}
+
             setPaymentResponse={setResponseModal}
             setSuccess={setSuccess}
           />
@@ -104,6 +111,11 @@ export default function Home({ data }: InferGetServerSidePropsType<typeof getSer
           <ThreeDSecure
             sessionId={data.success!.id}
             livemode={data.success!.livemode}
+
+            threeDSecureCardHolderBrowserInfo={threeDSecureCardHolderBrowserInfo}
+            setThreeDSecureCardHolderBrowserInfo={setThreeDSecureCardHolderBrowserInfo}
+            threeDSecureUrl={threeDSecureUrl}
+
 
             totalPrice={totalPrice}
             setTotalPrice={setTotalPrice}

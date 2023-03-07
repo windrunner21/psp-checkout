@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { getMerchant } from "./merchant";
-import { getTransaction } from "./payment";
+import { check3DSecureCheckoutSession, getTransaction } from "./payment";
 
 export function useMerchant(publicKey: string) {
   const { data, isLoading, error } = useSWR(publicKey, getMerchant);
@@ -17,6 +17,20 @@ export function useTransaction(transactionId: string) {
 
   return {
     transaction: data,
+    isLoading,
+    isError: error,
+  };
+}
+
+export function useCheck3DSecure(sessionId: string, shouldFetch: boolean) {
+  const { data, isLoading, error } = useSWR(
+    shouldFetch ? sessionId : null,
+    check3DSecureCheckoutSession,
+    { refreshInterval: 1200 }
+  );
+
+  return {
+    data,
     isLoading,
     isError: error,
   };

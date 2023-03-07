@@ -9,6 +9,7 @@ import { completeCheckoutSession } from '../../network/payment';
 import { PaymentDetails } from '../../models/payment-details';
 import { Card } from '../../models/card';
 import { formatFullName } from '../../controllers/formatting';
+import { collectCardHolderBrowserInfo } from '../../network/banks/atb/network';
 
 const Payment = (props: PaymentProps) => {
 
@@ -50,10 +51,16 @@ const Payment = (props: PaymentProps) => {
         const response = await completeCheckoutSession(props.sessionId, paymentDetails)
         setLoading(false)
 
-        // TODO: refactor and update logic in the future
         if (response.success) {
-            if (response.success.url) {
+            if (response.success.is3DSecure) {
                 props.setThreeDSecureModal(true)
+                if (response.success.is3DSecureV2) {
+                    if (response.success.cardHolderBrowserCheck) {
+                        const cardHolderBrowserInfoHTML = await collectCardHolderBrowserInfo(response.success.cardHolderBrowserCheck)
+                        props.setThreeDSecureCardHolderBrowserInfo(cardHolderBrowserInfoHTML)
+                    }
+                } else {
+                }
             } else {
                 props.setPaymentResponse(true)
                 props.setSuccess(true)
