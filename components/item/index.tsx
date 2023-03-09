@@ -11,7 +11,7 @@ const Item = (props: ItemProps) => {
                 <div className={styles.row}>
                     {/* image */}
                     {props.image && <div className={`${styles.row} ${styles.image}`}>
-                        <Image src={props.image} alt="back" fill style={{ borderRadius: '0.4rem' }} />
+                        <Image src={props.image} alt="image" fill style={{ borderRadius: '0.4rem' }} />
                     </div>}
                     {/* name, description and quantity */}
                     <div className={styles.column}>
