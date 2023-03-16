@@ -21,7 +21,7 @@ const Item = (props: ItemProps) => {
                     </div>
                 </div>
                 {/* price */}
-                <span className={styles.price}>{props.price} ₼</span>
+                <span className={styles.price}>{props.price.toFixed(2)} ₼</span>
             </div>
         </div>
     )

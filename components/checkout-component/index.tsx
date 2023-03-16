@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { moneyInterface } from '../../models/core/money';
 import Footer from '../footer-component';
 import Item from '../item';
 import styles from './Checkout.module.css'
@@ -13,10 +14,21 @@ const Checkout = (props: CheckoutProps) => {
     useEffect(() => {
         let tempPrice: number = 0
         props.items.forEach(item => {
-            tempPrice += item.price * item.quantity
+
+            const converted = moneyInterface.convert(item.price, undefined)
+            console.log(converted)
+            if (converted) {
+                const tempItemPriceInCents = converted.cents
+                console.log(tempItemPriceInCents)
+                tempPrice += tempItemPriceInCents * item.quantity
+            }
         });
 
-        setTotalPrice(tempPrice)
+        const converted = moneyInterface.convert(undefined, tempPrice)
+
+        if (converted) {
+            setTotalPrice(converted.price)
+        }
     }, [props.items])
 
     return (
@@ -54,7 +66,7 @@ const Checkout = (props: CheckoutProps) => {
                 <div style={{ height: "0.25rem" }} />
 
                 {/* price */}
-                <span className={styles.price}>{totalPrice} ₼</span>
+                <span className={styles.price}>{totalPrice.toFixed(2)} ₼</span>
 
                 {/* items */}
                 <div className={`${styles.column} ${styles.items}`}>
